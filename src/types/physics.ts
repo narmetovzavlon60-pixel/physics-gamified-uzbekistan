@@ -13,6 +13,7 @@ export interface Formula {
 
 export interface QuizQuestion {
   id: string;
+  difficulty: 1 | 2 | 3;
   question: LocalizedText;
   options: LocalizedText[];
   correctIndex: number;
@@ -27,6 +28,8 @@ export interface PhysicsTask {
   xpReward: number;
   coinReward: number;
   formulas: string[];
+  answer?: number;
+  tolerance?: number;
 }
 
 export interface PhysicsTopic {
@@ -34,9 +37,11 @@ export interface PhysicsTopic {
   moduleId: string;
   title: LocalizedText;
   summary: LocalizedText;
+  details?: LocalizedText;
   formulas: Formula[];
   tasks: PhysicsTask[];
   quiz: QuizQuestion[];
+  hasSimulation?: boolean;
 }
 
 export interface PhysicsModule {
@@ -44,6 +49,7 @@ export interface PhysicsModule {
   title: LocalizedText;
   icon: string;
   color: string;
+  summary?: LocalizedText;
   topics: PhysicsTopic[];
 }
 
@@ -52,6 +58,6 @@ export interface InventoryItem {
   name: LocalizedText;
   description: LocalizedText;
   cost: number;
-  type: 'avatar' | 'theme' | 'powerup';
+  type: 'avatar' | 'theme' | 'powerup' | 'title';
   effect?: string;
 }

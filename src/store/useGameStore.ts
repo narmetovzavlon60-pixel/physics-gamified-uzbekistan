@@ -12,12 +12,14 @@ interface GameState {
   inventory: string[];
   completedTopics: string[];
   completedQuizzes: string[];
+  solvedTasks: string[];
   addXp: (amount: number) => void;
   addCoins: (amount: number) => void;
   toggleLanguage: () => void;
   purchaseItem: (itemId: string, cost: number) => boolean;
   completeTopic: (topicId: string, xp: number, coins: number) => void;
   completeQuiz: (quizId: string, xp: number, coins: number) => void;
+  solveTask: (taskId: string, xp: number, coins: number) => boolean;
   updateStreak: () => void;
 }
 
@@ -37,6 +39,7 @@ export const useGameStore = create<GameState>()(
       inventory: [],
       completedTopics: [],
       completedQuizzes: [],
+      solvedTasks: [],
       addXp: (amount) => set((state) => {
         const xp = state.xp + amount;
         return { xp, level: calcLevel(xp) };
@@ -72,6 +75,19 @@ export const useGameStore = create<GameState>()(
             coins: state.coins + coins
           });
         }
+      },
+      solveTask: (taskId, xp, coins) => {
+        const state = get();
+        if (!state.solvedTasks.includes(taskId)) {
+          set({
+            solvedTasks: [...state.solvedTasks, taskId],
+            xp: state.xp + xp,
+            level: calcLevel(state.xp + xp),
+            coins: state.coins + coins
+          });
+          return true;
+        }
+        return false;
       },
       updateStreak: () => {
         const now = new Date();

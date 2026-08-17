@@ -2,14 +2,14 @@ import { useState } from 'react';
 import Navbar from './components/Navbar';
 import TopicCard from './components/TopicCard';
 import ShopModal from './components/ShopModal';
-import Leaderboard from './components/Leaderboard';
-import Physics3DSimulator from './components/3d/Physics3DSimulator';
+import TasksPage from './components/TasksPage';
+import QuizPage from './components/QuizPage';
 import { physicsModules } from './data/physicsDatabase';
 import { useGameStore } from './store/useGameStore';
 import type { PhysicsTopic } from './types/physics';
-import { BookOpen, Home, ShoppingCart, Trophy } from 'lucide-react';
+import { BookOpen, Home, ShoppingCart, ClipboardList, HelpCircle } from 'lucide-react';
 
-type Tab = 'home' | 'leaderboard' | 'shop';
+type Tab = 'home' | 'tasks' | 'quiz' | 'shop';
 
 export default function App() {
   const [tab, setTab] = useState<Tab>('home');
@@ -30,9 +30,7 @@ export default function App() {
               {physicsModules.map(mod => (
                 <div key={mod.id} className="rounded-xl bg-slate-800 p-4" style={{ borderLeft: `4px solid ${mod.color}` }}>
                   <h2 className="text-lg font-semibold">{mod.icon} {mod.title[language]}</h2>
-                  <div className="mt-2 h-40 overflow-hidden rounded">
-                    <Physics3DSimulator moduleId={mod.id} />
-                  </div>
+                  <p className="text-xs text-slate-400 mt-1">{mod.summary?.[language]}</p>
                   <div className="mt-3 space-y-2">
                     {mod.topics.map(topic => (
                       <button
@@ -48,8 +46,10 @@ export default function App() {
               ))}
             </div>
           </div>
-        ) : tab === 'leaderboard' ? (
-          <Leaderboard />
+        ) : tab === 'tasks' ? (
+          <TasksPage />
+        ) : tab === 'quiz' ? (
+          <QuizPage />
         ) : null}
       </div>
 
@@ -58,9 +58,13 @@ export default function App() {
           <Home size={20} />
           <span>{language === 'ru' ? 'Главная' : 'Bosh'}</span>
         </button>
-        <button onClick={() => { setTab('leaderboard'); setSelectedTopic(null); }} className={`flex flex-col items-center text-xs ${tab === 'leaderboard' ? 'text-blue-400' : 'text-slate-500'}`}>
-          <Trophy size={20} />
-          <span>{language === 'ru' ? 'Рейтинг' : 'Reyting'}</span>
+        <button onClick={() => { setTab('tasks'); setSelectedTopic(null); }} className={`flex flex-col items-center text-xs ${tab === 'tasks' ? 'text-blue-400' : 'text-slate-500'}`}>
+          <ClipboardList size={20} />
+          <span>{language === 'ru' ? 'Задачи' : 'Masalalar'}</span>
+        </button>
+        <button onClick={() => { setTab('quiz'); setSelectedTopic(null); }} className={`flex flex-col items-center text-xs ${tab === 'quiz' ? 'text-blue-400' : 'text-slate-500'}`}>
+          <HelpCircle size={20} />
+          <span>{language === 'ru' ? 'Викторина' : 'Viktorina'}</span>
         </button>
         <button onClick={() => setShowShop(true)} className="flex flex-col items-center text-xs text-slate-500">
           <ShoppingCart size={20} />
