@@ -41,7 +41,7 @@ export interface PhysicsTopic {
   formulas: Formula[];
   tasks: PhysicsTask[];
   quiz: QuizQuestion[];
-  hasSimulation?: boolean;
+  simulationType?: string;
 }
 
 export interface PhysicsModule {

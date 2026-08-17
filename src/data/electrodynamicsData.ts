@@ -12,7 +12,7 @@ export const electrodynamicsModule: PhysicsModule = {
       moduleId: 'electrodynamics',
       title: { ru: 'Электрические цепи', uz: 'Elektr zanjirlari' },
       summary: { ru: 'Закон Ома, сопротивление, мощность, соединения проводников.', uz: 'Om qonuni, qarshilik, quvvat, o\'tkazgichlar ulanishi.' },
-      details: { ru: 'Электрическая цепь — замкнутый путь для тока. Закон Ома связывает напряжение, силу тока и сопротивление.', uz: 'Elektr zanjiri — tok uchun berk yo\'l. Om qonuni kuchlanish, tok kuchi va qarshilikni bog\'laydi.' },
+      details: { ru: 'Электрическая цепь — замкнутый путь для тока.', uz: 'Elektr zanjiri — tok uchun berk yo\'l.' },
       formulas: [
         { id: 'Ohm', latex: 'I = \\frac{U}{R}', description: { ru: 'Закон Ома', uz: 'Om qonuni' } },
         { id: 'P', latex: 'P = UI', description: { ru: 'Мощность', uz: 'Quvvat' } },
@@ -32,6 +32,26 @@ export const electrodynamicsModule: PhysicsModule = {
         { id: 'ohm-q4', difficulty: 2, question: { ru: 'При последовательном соединении общее сопротивление:', uz: 'Ketma-ket ulanishda umumiy qarshilik:' }, options: [{ ru: 'Увеличивается', uz: 'Ortadi' }, { ru: 'Уменьшается', uz: 'Kamayadi' }, { ru: 'Не меняется', uz: 'O\'zgarmaydi' }, { ru: 'Становится нулевым', uz: 'Nolga teng bo\'ladi' }], correctIndex: 0 },
         { id: 'ohm-q5', difficulty: 3, question: { ru: 'Два резистора 3 Ом и 6 Ом параллельно. Общее сопротивление равно:', uz: '3 Ω va 6 Ω rezistorlar parallel. Umumiy qarshilik:' }, options: [{ ru: '2 Ом', uz: '2 Ω' }, { ru: '9 Ом', uz: '9 Ω' }, { ru: '0.5 Ом', uz: '0.5 Ω' }, { ru: '18 Ом', uz: '18 Ω' }], correctIndex: 0 }
       ]
+    },
+    {
+      id: 'magnetism',
+      moduleId: 'electrodynamics',
+      title: { ru: 'Магнетизм', uz: 'Magnitizm' },
+      summary: { ru: 'Магнитное поле, сила Лоренца, электромагнитная индукция.', uz: 'Magnit maydon, Lorents kuchi, elektromagnit induksiya.' },
+      details: { ru: 'Движущиеся заряды создают магнитное поле. На заряд в магнитном поле действует сила Лоренца.', uz: 'Harakatlanuvchi zaryadlar magnit maydon hosil qiladi. Magnit maydondagi zaryadga Lorents kuchi ta\'sir qiladi.' },
+      formulas: [
+        { id: 'Lorentz', latex: 'F = qvB\\sin\\theta', description: { ru: 'Сила Лоренца', uz: 'Lorents kuchi' } },
+        { id: 'Flux', latex: '\\Phi = B A \\cos\\theta', description: { ru: 'Магнитный поток', uz: 'Magnit oqim' } }
+      ],
+      tasks: [
+        { id: 'mag1', title: { ru: 'Сила Лоренца', uz: 'Lorents kuchi' }, description: { ru: 'Заряд 2 мкКл движется со скоростью 100 м/с перпендикулярно магнитному полю 0.5 Тл. Найдите силу (мН).', uz: '2 mkKl zaryad 100 m/s tezlik bilan 0.5 T magnit maydonga perpendikulyar harakatlanadi. Kuchni toping (mN).' }, difficulty: 2, xpReward: 50, coinReward: 8, formulas: ['Lorentz'], answer: 0.1 },
+        { id: 'mag2', title: { ru: 'Магнитный поток', uz: 'Magnit oqim' }, description: { ru: 'Площадь рамки 0.1 м², индукция 0.2 Тл, угол 0°. Найдите поток (Вб).', uz: 'Ramka yuzasi 0.1 m², induksiya 0.2 T, burchak 0°. Oqimni toping (Wb).' }, difficulty: 1, xpReward: 35, coinReward: 5, formulas: ['Flux'], answer: 0.02 }
+      ],
+      quiz: [
+        { id: 'mag-q1', difficulty: 2, question: { ru: 'Сила Лоренца действует на...', uz: 'Lorents kuchi nimaga ta\'sir qiladi?' }, options: [{ ru: 'Движущийся заряд', uz: 'Harakatlanuvchi zaryadga' }, { ru: 'Покоящийся заряд', uz: 'Tinch turgan zaryadga' }, { ru: 'Массу', uz: 'Massaga' }, { ru: 'Проводник без тока', uz: 'Toksiz o\'tkazgichga' }], correctIndex: 0 },
+        { id: 'mag-q2', difficulty: 2, question: { ru: 'Единица магнитной индукции:', uz: 'Magnit induksiya birligi:' }, options: [{ ru: 'Тесла (Тл)', uz: 'Tesla (T)' }, { ru: 'Вебер (Вб)', uz: 'Veber (Wb)' }, { ru: 'Генри (Гн)', uz: 'Genri (H)' }, { ru: 'Фарад (Ф)', uz: 'Farad (F)' }], correctIndex: 0 }
+      ],
+      simulationType: 'magnetic'
     }
   ]
 };

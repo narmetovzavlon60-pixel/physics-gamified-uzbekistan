@@ -34,14 +34,14 @@ export default function TopicCard({ topic, onBack }: { topic: PhysicsTopic; onBa
         ))}
       </div>
 
-      {topic.hasSimulation && (
+      {topic.simulationType && (
         <button onClick={() => { playSound('click'); setShowSim(true); }} className="mt-6 w-full rounded bg-indigo-600 py-3 text-sm font-semibold">
           🔬 {language === 'ru' ? '3D симуляция' : '3D simulyatsiya'}
         </button>
       )}
 
       {showFormula && <FormulaModal formula={topic.formulas.find(f => f.id === showFormula)!} onClose={() => setShowFormula(null)} />}
-      {showSim && <SimulationModal moduleId={topic.moduleId} onClose={() => setShowSim(false)} />}
+      {showSim && <SimulationModal simulationType={topic.simulationType!} onClose={() => setShowSim(false)} />}
     </div>
   );
 }
