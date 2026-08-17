@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import type { PhysicsTopic } from '../types/physics';
 import { useGameStore } from '../store/useGameStore';
+import { playSound } from '../utils/sound';
 
 export default function DTMExam({ topic, onClose }: { topic: PhysicsTopic; onClose: () => void }) {
   const [index, setIndex] = useState(0);
@@ -28,7 +29,12 @@ export default function DTMExam({ topic, onClose }: { topic: PhysicsTopic; onClo
   }, [index, finished]);
 
   const handleNext = () => {
-    if (selected === q?.correctIndex) setScore(score + 1);
+    if (selected === q?.correctIndex) {
+      playSound('correct');
+      setScore(score + 1);
+    } else {
+      playSound('wrong');
+    }
     setSelected(null);
     if (index + 1 < questions.length) {
       setIndex(index + 1);
@@ -40,6 +46,7 @@ export default function DTMExam({ topic, onClose }: { topic: PhysicsTopic; onClo
       addXp(totalXp);
       addCoins(totalCoins);
       completeQuiz(topic.id + '-dtm', totalXp, totalCoins);
+      playSound('success');
     }
   };
 
@@ -56,7 +63,7 @@ export default function DTMExam({ topic, onClose }: { topic: PhysicsTopic; onClo
           <div className="text-center">
             <h3 className="text-xl font-bold">⏱ DTM</h3>
             <p className="mt-2 text-2xl">{score} / {questions.length}</p>
-            <button onClick={onClose} className="mt-4 rounded bg-blue-600 px-4 py-2">OK</button>
+            <button onClick={() => { playSound('click'); onClose(); }} className="mt-4 rounded bg-blue-600 px-4 py-2">OK</button>
           </div>
         ) : (
           <>

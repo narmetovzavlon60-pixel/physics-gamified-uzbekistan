@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useGameStore } from '../store/useGameStore';
 import type { InventoryItem } from '../types/physics';
+import { playSound } from '../utils/sound';
 
 const items: InventoryItem[] = [
   {
@@ -33,12 +34,13 @@ export default function ShopModal({ onClose }: { onClose: () => void }) {
   const buy = (item: InventoryItem) => {
     const success = purchaseItem(item.id, item.cost);
     setMessage(success ? '✅ ' + (language === 'ru' ? 'Куплено!' : 'Sotib olindi!') : '❌ ' + (language === 'ru' ? 'Недостаточно монет' : 'Tangalar yetarli emas'));
+    playSound(success ? 'buy' : 'wrong');
   };
 
   return (
-    <div className="fixed inset-0 z-30 flex items-center justify-center bg-black/70 p-4" onClick={onClose}>
+    <div className="fixed inset-0 z-30 flex items-center justify-center bg-black/70 p-4" onClick={() => { playSound('click'); onClose(); }}>
       <div className="w-full max-w-md rounded-xl bg-slate-800 p-6" onClick={e => e.stopPropagation()}>
-        <button onClick={onClose} className="float-right text-slate-400">✕</button>
+        <button onClick={() => { playSound('click'); onClose(); }} className="float-right text-slate-400">✕</button>
         <h3 className="mb-4 text-lg font-bold">🛒 {language === 'ru' ? 'Магазин' : 'Do\'kon'}</h3>
         <p className="mb-4 text-sm text-amber-400">🪙 {coins}</p>
         <div className="space-y-3">

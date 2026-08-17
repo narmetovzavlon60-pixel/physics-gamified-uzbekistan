@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import type { PhysicsTopic } from '../types/physics';
 import { useGameStore } from '../store/useGameStore';
+import { playSound } from '../utils/sound';
 
 export default function QuizEngine({ topic, onClose }: { topic: PhysicsTopic; onClose: () => void }) {
   const [index, setIndex] = useState(0);
@@ -14,7 +15,12 @@ export default function QuizEngine({ topic, onClose }: { topic: PhysicsTopic; on
   const answer = (i: number) => {
     if (selected !== null) return;
     setSelected(i);
-    if (i === q.correctIndex) setScore(score + 1);
+    if (i === q.correctIndex) {
+      playSound('correct');
+      setScore(score + 1);
+    } else {
+      playSound('wrong');
+    }
     setTimeout(() => {
       if (index + 1 < questions.length) {
         setIndex(index + 1);
@@ -26,6 +32,7 @@ export default function QuizEngine({ topic, onClose }: { topic: PhysicsTopic; on
         addXp(totalXp);
         addCoins(totalCoins);
         completeQuiz(topic.id, totalXp, totalCoins);
+        playSound('success');
       }
     }, 1000);
   };
@@ -37,7 +44,7 @@ export default function QuizEngine({ topic, onClose }: { topic: PhysicsTopic; on
           <div className="text-center">
             <h3 className="text-xl font-bold">🏆 {language === 'ru' ? 'Результат' : 'Natija'}</h3>
             <p className="mt-2 text-2xl">{score} / {questions.length}</p>
-            <button onClick={onClose} className="mt-4 rounded bg-blue-600 px-4 py-2">OK</button>
+            <button onClick={() => { playSound('click'); onClose(); }} className="mt-4 rounded bg-blue-600 px-4 py-2">OK</button>
           </div>
         ) : (
           <>
@@ -61,7 +68,7 @@ export default function QuizEngine({ topic, onClose }: { topic: PhysicsTopic; on
                 </button>
               ))}
             </div>
-            <button onClick={onClose} className="mt-4 text-sm text-slate-400">✕ {language === 'ru' ? 'Закрыть' : 'Yopish'}</button>
+            <button onClick={() => { playSound('click'); onClose(); }} className="mt-4 text-sm text-slate-400">✕ {language === 'ru' ? 'Закрыть' : 'Yopish'}</button>
           </>
         )}
       </div>
