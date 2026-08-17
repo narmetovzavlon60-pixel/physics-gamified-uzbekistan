@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 import Navbar from './components/Navbar';
 import TopicCard from './components/TopicCard';
 import ShopModal from './components/ShopModal';
@@ -7,7 +8,7 @@ import QuizPage from './components/QuizPage';
 import { physicsModules } from './data/physicsDatabase';
 import { useGameStore } from './store/useGameStore';
 import type { PhysicsTopic } from './types/physics';
-import { BookOpen, Home, ShoppingCart, ClipboardList, HelpCircle } from 'lucide-react';
+import { Home, ShoppingCart, ClipboardList, HelpCircle } from 'lucide-react';
 
 type Tab = 'home' | 'tasks' | 'quiz' | 'shop';
 
@@ -25,24 +26,40 @@ export default function App() {
           <TopicCard topic={selectedTopic} onBack={() => setSelectedTopic(null)} />
         ) : tab === 'home' ? (
           <div className="p-4">
-            <h1 className="mb-4 text-xl font-bold">⚡ PhysicUZ 3D</h1>
+            <h1 className="mb-6 text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400">
+              ⚡ PhysicUZ 3D
+            </h1>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              {physicsModules.map(mod => (
-                <div key={mod.id} className="rounded-xl bg-slate-800 p-4" style={{ borderLeft: `4px solid ${mod.color}` }}>
-                  <h2 className="text-lg font-semibold">{mod.icon} {mod.title[language]}</h2>
-                  <p className="text-xs text-slate-400 mt-1">{mod.summary?.[language]}</p>
-                  <div className="mt-3 space-y-2">
+              {physicsModules.map((mod, index) => (
+                <motion.div
+                  key={mod.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.05 }}
+                  className="rounded-2xl bg-gradient-to-br from-slate-800 to-slate-900 p-5 shadow-lg hover:shadow-xl transition-shadow"
+                  style={{ borderLeft: `6px solid ${mod.color}` }}
+                >
+                  <h2 className="text-xl font-bold flex items-center gap-2">
+                    <span className="text-3xl">{mod.icon}</span> {mod.title[language]}
+                  </h2>
+                  {mod.summary && (
+                    <p className="mt-1 text-xs text-slate-400">{mod.summary[language]}</p>
+                  )}
+                  <div className="mt-4 space-y-2">
                     {mod.topics.map(topic => (
                       <button
                         key={topic.id}
                         onClick={() => setSelectedTopic(topic)}
-                        className="block w-full rounded bg-slate-700 p-2 text-left text-sm hover:bg-slate-600"
+                        className="block w-full rounded-xl bg-slate-700/50 p-3 text-left text-sm hover:bg-slate-600 transition-colors"
                       >
-                        {topic.title[language]}
+                        <span className="font-semibold">{topic.title[language]}</span>
+                        <span className="block text-xs text-slate-400">
+                          {topic.tasks.length} {language === 'ru' ? 'задач' : 'masala'} · {topic.quiz.length} {language === 'ru' ? 'вопросов' : 'savol'}
+                        </span>
                       </button>
                     ))}
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>
@@ -53,7 +70,7 @@ export default function App() {
         ) : null}
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 z-20 flex justify-around bg-slate-900 py-2">
+      <div className="fixed bottom-0 left-0 right-0 z-20 flex justify-around bg-slate-900/95 backdrop-blur py-2 border-t border-slate-800">
         <button onClick={() => { setTab('home'); setSelectedTopic(null); }} className={`flex flex-col items-center text-xs ${tab === 'home' ? 'text-blue-400' : 'text-slate-500'}`}>
           <Home size={20} />
           <span>{language === 'ru' ? 'Главная' : 'Bosh'}</span>
